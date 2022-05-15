@@ -1,15 +1,5 @@
 #include "../exam.h"
 
-void	display_word(char *str, size_t *i)
-{
-	while (str[*i] && str[*i] != ' ')
-	{
-		write(1, &str[*i], 1);
-		(*i)++;
-	}
-	write(1, " ", 1);
-}
-
 int	main(int argc, char **argv)
 {
 	size_t	first_start;
