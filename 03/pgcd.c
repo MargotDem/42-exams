@@ -11,13 +11,12 @@ void	pgcd(int a, int b)
 		b = i;
 	}
 	i = 1;
-
-		while (i < b)
-		{
-			if (a % i == 0 && b % i == 0)
-				pgcd = i;
-			i++;
-		}
+	while (i < b)
+	{
+		if (a % i == 0 && b % i == 0)
+			pgcd = i;
+		i++;
+	}
 	printf("%d", pgcd);
 }
 
