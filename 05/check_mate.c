@@ -1,55 +1,32 @@
 #include "../exam.h"
 
-int get_king_coords(int *king, int rows, char **board)
+int validate(int rows, char **board, int *king)
 {
 	int i;
 	int j;
+	int king_found;
 
 	i = 0;
-
+	king_found = 0;
 	while (i < rows)
 	{
 		j = 0;
-		while (j < rows)
+		while (board[i][j] && j < rows)
 		{
 			if (board[i][j] == 'K')
 			{
 				king[0] = i;
 				king[1] = j;
-				printf("ok heree\n");
-				return (1);
+				king_found = 1;
 			}
 			j++;
 		}
-		i++;
-	}
-	printf("ok heree 2. rows is %d\n", rows);
-	return (0);
-}
-
-int validate(int rows, char **board, int *king)
-{
-	int i;
-
-	if (!get_king_coords(king, rows, board))
-	{
-		printf("coucou\n");
-		return (0);
-	}
-	
-	// ok so check for rows and that board actually has this many rows and then for each, check that is has exactly rows rows yeah that makes sense mkayy
-	i = 0;
-	while (i < rows)
-	//NO WAIT HOW. how is argv terminated...??? eu caguei pra deus
-	// well lets find out
-	{
-		if (!board[i])
-		{
-			printf("helloooo\n");
+		if (j != rows)
 			return (0);
-		}
 		i++;
 	}
+	if (!king_found)
+		return (0);
 	return (1);
 }
 
