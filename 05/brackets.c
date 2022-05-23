@@ -1,54 +1,75 @@
 #include "../exam.h"
 
+int matches(char opening, char closing)
+{
+	if ((opening == '(' && closing == ')') || \
+		(opening == '{' && closing == '}') || \
+		(opening == '[' && closing == ']'))
+		return (1);
+	return (0);
+}
+
 int	brackets(char *str)
 {
-	// ( ) { } [ ]
+	char *pile;
+	char *pile_ptr;
+	char *tmp;
+	int pile_size;
 	int i;
-	char close;
-	int	ar[3];
-	int	bracket;
 
+	pile_size = 3;
+	pile = (char *)malloc(sizeof(char *) * pile_size);
+	if (!pile)
+		return (0);
 	i = 0;
-	if (str[0] == '\n')
-		return (1);
-	bracket = NULL;
+	pile_ptr = pile;
 	while (str[i])
 	{
+		if (pile_ptr - pile == pile_size)
+		{
+			tmp = (char *)malloc(sizeof(char *) * pile_size * 2);
+			if (!tmp)
+				return (0);
+			int j = 0;
+			while (j < pile_size)
+			{
+				tmp[j] = pile[j];
+				j++;
+			}
+			free(pile);
+			pile = tmp;
+			pile_ptr = pile + pile_size;
+			pile_size *= 2;
+		}
 		if (str[i] == '(' || str[i] == '{' || str[i] == '[')
 		{
-			if (str[i] == '(')
+			*pile_ptr = str[i];
+			*(pile_ptr + 1) = '\0';
+			pile_ptr++;
+		}
+		if (str[i] == ')' || str[i] == '}' || str[i] == ']')
+		{
+			if (!matches(*(pile_ptr - 1), str[i]))
 			{
-				close = ')';
+				free(pile);
+				return (0);
 			}
-			else if (str[i] == '{')
-				close = '}';
 			else
-				close = ']';
+			{
+				pile_ptr--;
+				*pile_ptr = 0;
+			}
 		}
-		if (str[i] == ')' && close != ')')
-		{
-			printf("du är här 1. close is %c\n", close);
-			return (0);
-		}
-		else if (str[i] == '}' && close != '}')
-		{
-			printf("du är här 2\n");
-			return (0);
-		}
-		else if (str[i] == ']' && close != ']')
-		{
-			printf("du är här 3\n");
-			return (0);
-		}
-		i++;		
+		i++;
 	}
+	if (pile_ptr - pile != 0)
+	{
+		free(pile);
+		return (0);
+	}
+	free(pile);
 	return (1);
 }
-/*
-now wait a second.
-am i actually fucking stupid??? you need to remember the one before, so some sort of pile SMH why am i like this
-
-*/
 
 int	main(int argc, char **argv)
 {
